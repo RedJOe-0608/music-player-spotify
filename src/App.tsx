@@ -1,16 +1,16 @@
 import MusicList from "./components/MusicList"
 import Sidebar from "./components/Sidebar"
-import { SongsProvider } from "./context/SongsContext"
+import { SongsDataProvider } from "./context/SongsDataContext"
 
 function App() {
 
   return (
-    <SongsProvider>
+    <SongsDataProvider>
       <div className="flex">
         <Sidebar />
         <MusicList />
       </div>
-    </SongsProvider>
+    </SongsDataProvider>
   )
 }
 
