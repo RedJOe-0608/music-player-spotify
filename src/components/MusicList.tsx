@@ -34,7 +34,7 @@ const MusicList = () => {
       // setTimeout(() => audio.pause(),3000)
     
     },[songs])
-
+   
   return (
     <div className=" flex flex-col py-10 px-4 gap-4 min-w-md h-screen "
     style={{ backgroundColor: currentSongAccent || '#000000' }}
