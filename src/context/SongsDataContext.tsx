@@ -1,25 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { formatDuration } from "../components/utils/formatDuration";
+import { formatDuration } from "../utils/formatDuration";
+import type { Song } from "../types/types";
 
-type Song = {
-id: number,
-status: string,
-sort: null,
-user_created: string,
-date_created: string,
-user_updated: string,
-date_updated: string,
-name: string,
-artist: string,
-accent: string,
-cover: string,
-top_track: boolean,
-url: string
-}
-
+// we are caching the song durations in the context so that we don't have to fetch them again and again.
 type SongsContextType = {
     songs: Song[],
-    songDurations: Record<number,string> //id: song duration
+    songDurations: Record<number,string>, //id: song duration
+    isLoading: boolean
 }
 
 const SongsDataContext = createContext<SongsContextType | undefined>(undefined)
@@ -27,14 +14,16 @@ const SongsDataContext = createContext<SongsContextType | undefined>(undefined)
 export const SongsDataProvider = ({children}: {children: React.ReactNode}) => {
     const [musicList,setMusicList] = useState<Song[]>([])
     const [songDurations,setSongDurations] = useState<Record<number,string>>({})
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const fetchMusicList = async() => {
+            setIsLoading(true)
             const res = await fetch('https://cms.samespace.com/items/songs')
             const data = await res.json()
             setMusicList(data?.data)
             console.log(data?.data);
-            
+            setIsLoading(false)            
         }
         fetchMusicList()
     },[])
@@ -81,7 +70,8 @@ export const SongsDataProvider = ({children}: {children: React.ReactNode}) => {
 
     const value:SongsContextType = {
         songs: musicList,
-        songDurations
+        songDurations,
+        isLoading
     }
     return (
         <SongsDataContext.Provider value={value}>

@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSongs } from "../context/SongsDataContext"
 import useDebounce from "../hooks/useDebounce";
+import { useAudioPlayer } from "../context/AudioPlayerContext";
+import { Search } from "lucide-react";
 
 const MusicList = () => {
     
-    const {songs,songDurations} = useSongs()
+    const {songs,songDurations,isLoading} = useSongs()
+    const {setCurrentSong,currentSongAccent} = useAudioPlayer()
     const [searchQuery,setSearchQuery] = useState('')
     const debouncedSearchQuery = useDebounce(searchQuery,300)
 
@@ -17,9 +20,27 @@ const MusicList = () => {
         
     // },[songs])
 
+    useEffect(() => {
+      const audio = new Audio(songs[0]?.url)
+
+      console.dir(audio); // audio properties
+      // console.log(audio.volume);
+      // console.log(audio.play());
+      // console.log(audio.pause());
+      // console.log(audio.muted);
+      // console.log(audio.currentTime);
+
+      // audio.play();
+      // setTimeout(() => audio.pause(),3000)
+    
+    },[songs])
+
   return (
-    <div className="bg-gray-700 flex flex-col py-10 px-4 gap-4 max-w-md h-screen border-r border-black">
-      
+    <div className=" flex flex-col py-10 px-4 gap-4 min-w-md h-screen "
+    style={{ backgroundColor: currentSongAccent || '#000000' }}
+    >
+
+ 
       {/* Menu Buttons */}
       <div className="flex gap-4 text-white">
         <button>For You</button>
@@ -27,17 +48,33 @@ const MusicList = () => {
       </div>
 
       {/* Search Bar */}
-      <input type="text"
-      placeholder="Search Song, Artist"
-      className="bg-gray-500 w-full p-2 rounded-md"
-      value={searchQuery}
-      onChange={(e)=> setSearchQuery(e.target.value)}
-      />
-      {/* Music List */}
+      <div className="relative w-full"
+      style={{
+        backgroundColor: 'rgba(255, 255, 255, 0.2)', // translucent white
+        color: 'white',
+        padding: '10px',
+        borderRadius: '6px',
+      }}
+      >
+        <input
+          type="text"
+          placeholder="Search Song, Artist"
+          value={searchQuery}
+          onChange={(e)=> setSearchQuery(e.target.value)}
+        />
+        <Search className="absolute right-2 top-1/2 -translate-y-1/2 text-white" />
+      </div>
+
+    {isLoading ? (
+    <div className="flex justify-center items-center h-screen">
+      <div className="h-8 w-8 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
+    </div>
+    ): (
       <div className="flex flex-col gap-2">
         {songs.map((song) => (
             <div key={song.id}
-            className="flex items-center justify-between gap-2"
+            onClick={() => setCurrentSong(song)}
+            className="flex items-center justify-between gap-2 cursor-pointer"
             >
                 <div className="flex items-center gap-2">
                     <img 
@@ -57,6 +94,9 @@ const MusicList = () => {
             </div>
         ))}
       </div>
+      
+    )}
+     
     </div>
   )
 }
