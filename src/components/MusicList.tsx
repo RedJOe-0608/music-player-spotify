@@ -36,7 +36,7 @@ const MusicList = () => {
     },[songs])
    
   return (
-    <div className=" flex flex-col py-10 px-4 gap-4 min-w-md h-screen "
+    <div className=" flex flex-col py-10 px-4 gap-4 min-w-1/3 h-screen "
     style={{ backgroundColor: currentSongAccent || '#000000' }}
     >
 
@@ -70,7 +70,7 @@ const MusicList = () => {
       <div className="h-8 w-8 animate-spin rounded-full border-4 border-white border-t-transparent"></div>
     </div>
     ): (
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-6">
         {songs.map((song) => (
             <div key={song.id}
             onClick={() => setCurrentSong(song)}

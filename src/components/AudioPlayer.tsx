@@ -1,4 +1,4 @@
-import { PauseCircle, PlayCircle, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from "lucide-react"
+import { MoreHorizontal, PauseCircle, PlayCircle, SkipBack, SkipForward, Volume1, VolumeX } from "lucide-react"
 import { useAudioPlayer } from "../context/AudioPlayerContext"
 import { useEffect, useRef, useState } from "react"
 import { formatDuration } from "../utils/formatDuration"
@@ -133,41 +133,24 @@ const AudioPlayer = () => {
         }
     };
 
-    const handleVolumeChange = (e: React.MouseEvent<HTMLDivElement>) => {
-        const clickableArea = e.currentTarget;
-        const rect = clickableArea.getBoundingClientRect();
-        
-        // Account for padding (px-1 = 4px padding on each side)
-        const paddingX = 4;
-        const effectiveWidth = rect.width - (paddingX * 2);
-        const effectiveLeft = rect.left + paddingX;
-        
-        const percent = Math.max(0, Math.min(1, (e.clientX - effectiveLeft) / effectiveWidth));
-        
-        setVolume(percent);
-        setIsMuted(false);
-    };
-
     const getVolumeIcon = () => {
         if (isMuted || volume === 0) {
             return "VolumeX";
-        } else if (volume < 0.5) {
-            return "Volume1";
         } else {
-            return "Volume2";
+            return "Volume1";
         }
     };
 
     const progress = duration ? (currentTime / duration) * 100 : 0;
 
     return (
-        <div className="w-full h-screen flex flex-col items-center justify-center gap-6"
+        <div className="w-full h-screen flex flex-col items-center lg:justify-center justify-start gap-6 px-6 pt-2 lg:pt-0 lg:px-0"
              style={{ backgroundColor: currentSongAccent || '#000000' }}>
             
             <img 
                 src={`https://cms.samespace.com/assets/${currentSong?.cover}`} 
                 alt="song-cover"
-                className="w-1/2 h-1/2 rounded-md shadow-lg"
+                className="lg:w-1/2 h-1/2 w-full rounded-md shadow-lg"
             />
             
             <div className="text-center">
@@ -179,7 +162,7 @@ const AudioPlayer = () => {
             <audio ref={audioRef} />
 
             {/* Custom Seeker */}
-            <div className="w-3/4 max-w-md">
+            <div className="lg:w-1/2 w-[80%]">
                 <div 
                     ref={progressBarRef}
                     className="relative h-2 bg-gray-600 rounded-full cursor-pointer group"
@@ -207,8 +190,11 @@ const AudioPlayer = () => {
             </div>
 
             {/* Control buttons */}
-            <div className="flex items-center gap-6">
-                <SkipBack 
+            <div className="lg:w-1/2 w-[80%] flex justify-between items-center gap-6">
+               <MoreHorizontal />
+
+               <div className="flex items-center gap-6">
+               <SkipBack 
                     className="text-white text-2xl cursor-pointer hover:text-gray-300 transition-colors" 
                     onClick={() => setPrevSong()} 
                 />
@@ -229,6 +215,7 @@ const AudioPlayer = () => {
                     className="text-white text-2xl cursor-pointer hover:text-gray-300 transition-colors" 
                     onClick={() => setNextSong()} 
                 />
+               </div>
                 
                 {/* Volume Control */}
                 <div className="flex items-center gap-3">
@@ -246,29 +233,8 @@ const AudioPlayer = () => {
                             onClick={toggleMute}
                         />
                     )}
-                    {getVolumeIcon() === "Volume2" && (
-                        <Volume2 
-                            className="text-white text-2xl cursor-pointer hover:text-gray-300 transition-colors" 
-                            onClick={toggleMute}
-                        />
-                    )}
                     
-                    {/* Keeping it simple: Volume Slider visible always */}
-                    <div className="w-20 h-6 flex items-center cursor-pointer px-1"
-                         onClick={handleVolumeChange}>
-                        {/* Visual slider bar */}
-                        <div className="w-full h-1 bg-gray-600 rounded-full relative">
-                            <div 
-                                className="h-full bg-white rounded-full transition-all duration-150"
-                                style={{ width: `${(isMuted ? 0 : volume) * 100}%` }}
-                            />
-                            {/* Slider thumb */}
-                            <div 
-                                className="absolute top-1/2 w-3 h-3 bg-white rounded-full transform -translate-y-1/2 shadow-lg transition-all duration-150"
-                                style={{ left: `calc(${(isMuted ? 0 : volume) * 100}% - 6px)` }}
-                            />
-                        </div>
-                    </div>
+                
                 </div>
             </div>
         </div>
