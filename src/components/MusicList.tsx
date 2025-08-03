@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSongs } from "../context/SongsDataContext"
 import useDebounce from "../hooks/useDebounce";
 import { useAudioPlayer } from "../context/AudioPlayerContext";
