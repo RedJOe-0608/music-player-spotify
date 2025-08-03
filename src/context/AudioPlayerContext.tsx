@@ -12,7 +12,7 @@ type AudioPlayerContextType = {
 
 const AudioPlayerContext = createContext<AudioPlayerContextType | undefined>(undefined)
 
-// localStorage keys
+// localStorage key. We are storing the current song in localStorage so that when the user refreshes the page, the song is restored.
 const CURRENT_SONG_KEY = 'musicPlayer_currentSong'
 
 // Helper functions for localStorage
@@ -42,12 +42,8 @@ export const AudioPlayerProvider = ({children}: {children: React.ReactNode}) => 
     useEffect(() => {
         if (songs.length > 0 && !currentSong) {
             const savedSong = getFromLocalStorage(CURRENT_SONG_KEY)
-            if (savedSong) {
-                // Find the song in the current songs list
-                const foundSong = songs.find(song => song.id === savedSong.id)
-                if (foundSong) {
-                    setCurrentSong(foundSong)
-                }
+                if (savedSong) {
+                    setCurrentSong(savedSong)
             }
         }
     }, [songs, currentSong])

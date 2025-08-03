@@ -1,4 +1,4 @@
-import { MoreHorizontal, PauseCircle, PlayCircle, SkipBack, SkipForward, Volume1, VolumeX } from "lucide-react"
+import { FastForward, MoreHorizontal, PauseCircle, PlayCircle, Rewind, Volume2, VolumeX } from "lucide-react"
 import { useAudioPlayer } from "../context/AudioPlayerContext"
 import { useEffect, useRef, useState } from "react"
 import { formatDuration } from "../utils/formatDuration"
@@ -153,7 +153,7 @@ const AudioPlayer = () => {
 
            <div className=" flex items-center justify-center">
              {/* Song Info - Fixed at top */}
-             <div className="w-full max-w-xs md:max-w-sm lg:max-w-xl space-y-2">
+             <div className="w-full max-w-lg lg:max-w-xl space-y-2">
                 <h1 className="text-white text-left text-2xl md:text-3xl font-bold leading-tight">
                     {currentSong?.name || "No song selected"}
                 </h1>
@@ -165,14 +165,14 @@ const AudioPlayer = () => {
             
             {/* Center content area with image */}
             <div className="py-8 flex items-center justify-center min-h-0">
-                <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-xl h-full max-h-80 lg:max-h-96">
+                <div className="relative w-full max-w-lg lg:max-w-xl h-80 lg:h-96">
                     {currentSong ? (
                         <>
                             <img 
                                 src={`https://cms.samespace.com/assets/${currentSong.cover}`} 
                                 alt="song-cover"
                                 className="w-full h-full object-cover rounded-xl lg:rounded-lg shadow-2xl 
-                                         border border-white/10 backdrop-blur-sm aspect-square"
+                                         border border-white/10 backdrop-blur-sm"
                             />
                             <div className="absolute inset-0 rounded-xl lg:rounded-lg bg-gradient-to-t from-black/20 to-transparent"></div>
                         </>
@@ -195,7 +195,7 @@ const AudioPlayer = () => {
 
                 {/* Custom Seeker */}
                 <div className="w-full flex justify-center">
-                    <div className="w-full max-w-xs md:max-w-sm lg:max-w-xl space-y-2 lg:space-y-3">
+                    <div className="w-full max-w-lg lg:max-w-xl space-y-2 lg:space-y-3">
                         <div 
                             ref={progressBarRef}
                             className={`relative h-2 lg:h-1.5 bg-white/20 rounded-full group 
@@ -224,7 +224,7 @@ const AudioPlayer = () => {
                         </div>
                         
                         {/* Time display */}
-                        <div className="flex justify-between text-sm lg:text-sm text-white/60 font-mono">
+                        <div className="flex justify-between text-sm lg:text-sm text-white/60">
                             <span>{formatDuration(currentTime)}</span>
                             <span>{formatDuration(duration)}</span>
                         </div>
@@ -233,10 +233,10 @@ const AudioPlayer = () => {
 
                 {/* Control buttons */}
                 <div className="w-full flex justify-center">
-                    <div className="flex justify-between items-center w-full max-w-xs md:max-w-sm lg:max-w-xl">
+                    <div className="flex justify-between items-center w-full max-w-lg lg:max-w-xl">
                <button 
                  disabled={!currentSong}
-                 className={`p-3 lg:p-2 rounded-full transition-all duration-200 
+                 className={`rounded-full transition-all duration-200 
                            group flex items-center justify-center ${
                                currentSong 
                                    ? 'hover:bg-white/10 cursor-pointer' 
@@ -259,7 +259,7 @@ const AudioPlayer = () => {
                                     ? 'hover:bg-white/10 cursor-pointer' 
                                     : 'cursor-not-allowed opacity-50'
                             }`}>
-                   <SkipBack className={`w-7 h-7 lg:w-6 lg:h-6 transition-colors duration-200 ${
+                   <Rewind className={`w-7 h-7 lg:w-6 lg:h-6 transition-colors duration-200 ${
                        currentSong 
                            ? 'text-white/80 group-hover:text-white' 
                            : 'text-white/40'
@@ -299,7 +299,7 @@ const AudioPlayer = () => {
                                     ? 'hover:bg-white/10 cursor-pointer' 
                                     : 'cursor-not-allowed opacity-50'
                             }`}>
-                   <SkipForward className={`w-7 h-7 lg:w-6 lg:h-6 transition-colors duration-200 ${
+                   <FastForward className={`w-7 h-7 lg:w-6 lg:h-6 transition-colors duration-200 ${
                        currentSong 
                            ? 'text-white/80 group-hover:text-white' 
                            : 'text-white/40'
@@ -311,7 +311,7 @@ const AudioPlayer = () => {
                 <button 
                   onClick={toggleMute}
                   disabled={!currentSong}
-                  className={`p-3 lg:p-2 rounded-full transition-all duration-200 
+                  className={` rounded-full transition-all duration-200 
                            group flex items-center justify-center ${
                                currentSong 
                                    ? 'hover:bg-white/10 cursor-pointer' 
@@ -324,7 +324,7 @@ const AudioPlayer = () => {
                                 : 'text-white/40'
                         }`} />
                     ) : (
-                        <Volume1 className={`w-6 h-6 lg:w-5 lg:h-5 transition-colors duration-200 ${
+                        <Volume2 className={`w-6 h-6 lg:w-5 lg:h-5 transition-colors duration-200 ${
                             currentSong 
                                 ? 'text-white/80 group-hover:text-white' 
                                 : 'text-white/40'

@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 const MusicList = () => {
     
     const {songs,songDurations,isLoading} = useSongs()
-    const {setCurrentSong,currentSongAccent} = useAudioPlayer()
+    const {currentSong, setCurrentSong,currentSongAccent} = useAudioPlayer()
     const [searchQuery,setSearchQuery] = useState('')
     const [activeTab, setActiveTab] = useState<'forYou' | 'topTracks'>('forYou')
     const debouncedSearchQuery = useDebounce(searchQuery,300)
@@ -32,20 +32,20 @@ const MusicList = () => {
         
     // },[songs])
 
-    useEffect(() => {
-      const audio = new Audio(songs[0]?.url)
+    // useEffect(() => {
+    //   const audio = new Audio(songs[0]?.url)
 
-      console.dir(audio); // audio properties
-      // console.log(audio.volume);
-      // console.log(audio.play());
-      // console.log(audio.pause());
-      // console.log(audio.muted);
-      // console.log(audio.currentTime);
+    //   console.dir(audio); // audio properties
+    //   // console.log(audio.volume);
+    //   // console.log(audio.play());
+    //   // console.log(audio.pause());
+    //   // console.log(audio.muted);
+    //   // console.log(audio.currentTime);
 
-      // audio.play();
-      // setTimeout(() => audio.pause(),3000)
+    //   // audio.play();
+    //   // setTimeout(() => audio.pause(),3000)
     
-    },[songs])
+    // },[songs])
    
   return (
     <div className="flex flex-col py-8 px-4 lg:px-6 gap-6 min-w-1/3 h-screen smooth-bg-transition"
@@ -101,12 +101,17 @@ const MusicList = () => {
           </div>
         ): (
           <div className="flex flex-col gap-3">
-            {filteredSongs.map((song) => (
+            {filteredSongs.map((song) => {
+                const isCurrentlyPlaying = currentSong?.id === song.id;
+                return (
                 <div key={song.id}
                 onClick={() => setCurrentSong(song)}
-                className="flex items-center justify-between gap-3 p-3 cursor-pointer 
-                         rounded-xl hover:bg-white/10 transition-all duration-200 ease-in-out
-                         group border border-transparent hover:border-white/10"
+                className={`flex items-center justify-between gap-3 p-3 cursor-pointer 
+                         rounded-xl transition-all duration-200 ease-in-out group
+                         ${isCurrentlyPlaying 
+                           ? 'bg-white/20 border border-white/30 shadow-lg ring-2 ring-white/40' 
+                           : 'border border-transparent hover:bg-white/10 hover:border-white/10'
+                         }`}
                 >
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                         <div className="relative">
@@ -129,13 +134,14 @@ const MusicList = () => {
                     </div>
                     <div className="flex-shrink-0">
                       {songDurations[song.id] !== undefined ? (
-                        <p className="text-white/50 text-sm font-mono">{songDurations[song.id]}</p>
+                        <p className="text-white/50 text-sm">{songDurations[song.id]}</p>
                       ) : (
                         <div className="w-12 h-4 bg-white/20 animate-pulse rounded-md"></div>
                       )}
                     </div>
                 </div>
-            ))}
+                )
+            })}
           </div>
         )}
       </div>

@@ -22,7 +22,7 @@ export const SongsDataProvider = ({children}: {children: React.ReactNode}) => {
             const res = await fetch('https://cms.samespace.com/items/songs')
             const data = await res.json()
             setMusicList(data?.data)
-            console.log(data?.data);
+            // console.log(data?.data);
             setIsLoading(false)            
         }
         fetchMusicList()
@@ -53,7 +53,6 @@ export const SongsDataProvider = ({children}: {children: React.ReactNode}) => {
 
             // once all promises are resolved, we can set the song durations
             setSongDurations(durations)
-            console.log(durations);
             
         }
 
