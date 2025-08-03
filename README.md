@@ -2,7 +2,10 @@
 
 A modern, responsive music player built with React, TypeScript, and Tailwind CSS. This application provides a Spotify-like experience with smooth animations, dynamic theming, and comprehensive audio controls.
 
-![Music Player Preview](./public/spotify-logo.png)
+![Music Player Desktop Preview](./public/desktop-view.png)
+![Music Player Tablet Preview](./public/tablet-view.png)
+![Music Player Phone-1 Preview](./public/phone-view.png)
+![Music Player Phone-2 Preview](./public/phone-view-2.png)
 
 ## ✨ Features
 
