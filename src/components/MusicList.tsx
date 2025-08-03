@@ -56,7 +56,7 @@ const MusicList = () => {
       <div className="flex gap-2 flex-shrink-0">
         <button 
           onClick={() => setActiveTab('forYou')}
-          className={`px-4 py-2 rounded-full backdrop-blur-sm transition-all duration-200 ease-in-out font-medium ${
+          className={`px-4 py-2 rounded-full backdrop-blur-sm font-medium transition-none ${
             activeTab === 'forYou'
               ? 'bg-white/20 text-white border border-white/10 shadow-lg hover:bg-white/30'
               : 'text-white/70 hover:bg-white/10 hover:text-white'
@@ -66,7 +66,7 @@ const MusicList = () => {
         </button>
         <button 
           onClick={() => setActiveTab('topTracks')}
-          className={`px-4 py-2 rounded-full backdrop-blur-sm transition-all duration-200 ease-in-out font-medium ${
+          className={`px-4 py-2 rounded-full backdrop-blur-sm font-medium transition-none ${
             activeTab === 'topTracks'
               ? 'bg-white/20 text-white border border-white/10 shadow-lg hover:bg-white/30'
               : 'text-white/70 hover:bg-white/10 hover:text-white'
